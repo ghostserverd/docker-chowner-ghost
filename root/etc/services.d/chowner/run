@@ -1,8 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-exec \
-    s6-setuidgid abc \
-    find /data \
-    -not -user abc -o \
-    -not -group abc \
-    -execdir chown abc:abc {} \+
+FIND_PATHS=${FIND_PATHS:-/data}
+
+/usr/bin/find ${FIND_PATHS} \
+\( -not -user abc -o \
+-not -group abc \) \
+-exec ls {} \; -exec chown abc:abc {} \+
+
+sleep 5
