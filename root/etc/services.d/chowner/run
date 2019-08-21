@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+exec \
+    s6-setuidgid abc \
+    find /data \
+    -not -user abc -o \
+    -not -group abc \
+    -execdir chown abc:abc {} \+
